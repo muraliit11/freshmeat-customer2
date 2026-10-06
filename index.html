@@ -1111,7 +1111,10 @@ function loadState() {
 
   function renderDrawer() {
     const body = document.getElementById("drawer-body");
-    const entries = Object.entries(cart);
+    const entries = Object.entries(cart).sort(([a], [b]) =>
+  PRODUCTS.find((p) => p.id === a).name.localeCompare(
+    PRODUCTS.find((p) => p.id === b).name, "en", { sensitivity: "base", numeric: true })
+);
     if (entries.length === 0) {
       body.innerHTML = `<div class="empty-cart">Your cart is empty.<br/>Add something fresh!</div>`;
     } else {
@@ -1308,7 +1311,9 @@ function loadState() {
 
   function renderGrid() {
     const grid = document.getElementById("product-grid");
-    const sorted = [...PRODUCTS].sort((a, b) => a.addedAt - b.addedAt);
+    const sorted = [...PRODUCTS].sort((a, b) =>
+  a.name.localeCompare(b.name, "en", { sensitivity: "base", numeric: true })
+);
     let html = sorted.map((p) => `
       <div class="card">
         <div class="emoji" id="emoji-block-${p.id}"></div>
